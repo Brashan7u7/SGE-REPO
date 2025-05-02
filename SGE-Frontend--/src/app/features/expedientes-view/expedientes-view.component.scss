@@ -1,0 +1,679 @@
+$font-family: "Inter, sans-serif";
+$color-black: #000;
+$border-solid-black: 1px solid $color-black;
+$border-radius-10: 10px;
+$border-radius-20: 20px;
+$border-radius-30: 30px;
+@media print {
+  @page {
+    size: A4 portrait; /* Tamaño carta vertical */
+    margin: 5mm;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #expedientes-content {
+    width: 100%;
+    height: calc(297mm - 20mm); /* Altura exacta para tamaño carta */
+    overflow: hidden;
+    transform: scale(0.9); /* Reduce tamaño global */
+    transform-origin: top left;
+    font-size: 12px; /* Texto más compacto */
+    line-height: 1.1; /* Reduce espacio entre líneas */
+  }
+
+  th,
+  td {
+    padding: 2px; /* Reduce espacio interno de tablas */
+    word-wrap: break-word; /* Ajusta texto largo */
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  button {
+    display: none; /* Oculta botones al imprimir */
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin absolute-position($top, $left) {
+  top: $top;
+  left: $left;
+}
+
+@mixin text-style($size, $align, $width) {
+  font-size: $size;
+  text-align: $align;
+  width: $width;
+}
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+@mixin size($height, $width) {
+  height: $height;
+  width: $width;
+}
+
+@mixin common-box-styles {
+  background-color: transparent;
+  border: $border-solid-black;
+}
+
+@mixin common-text-styles {
+  color: $color-black;
+  font-family: $font-family;
+  display: flex;
+  border: none;
+  outline: none;
+}
+
+.desktop-1 {
+  position: relative;
+  background-color: #ffffff;
+  @include size(1290px, 1446px);
+  padding: 0;
+  @include flex-center;
+  flex-wrap: wrap;
+}
+
+.bodybox,
+.rectanglePortada,
+.rectangle5,
+.rectangle6,
+.rectangle7,
+.rectangle8,
+.rectangle9,
+.rectangle10 {
+  @include common-box-styles;
+}
+
+.bodybox {
+  background-color: #deb88700;
+  @include size(1045px, 794px);
+  display: flex;
+  margin-bottom: 50px;
+  //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.padrenombres {
+  display: flex;
+}
+.izquierda {
+  flex: 1;
+  width: 0px;
+}
+.derecha {
+  flex: 1;
+  margin-right: 30px;
+}
+.izquierdavigencia {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.derechavigencia {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.rectanglePortada {
+  @include size(268px, 554px);
+  @include border-radius($border-radius-30);
+  @include absolute-position(198px, 493px); //!!!!!!!!!!!!!!!!!!!!!
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.informacionconfidencial,
+.direcciondeprestacionesmedicas,
+.seguridadysolidaridadsocial,
+.institutomexicanodelsegurosocial,
+.apellidopaterno,
+.apellidomaterno,
+.anversodeportada,
+.seriedocumental257,
+.carpetadecontenciondelexpedienteclinico,
+.domicilio,
+.fechadeapertura,
+.fechadecierre,
+.vigenciadocumental,
+.archivodetrámite-seccióniactivos,
+.períodoadicionalporserdonadordesangre,
+.períodoadicionalporsisioautoridadjudicial,
+.clave2b52-009-025,
+.archivodeconcentración-seccióniisemiactivos,
+.vigenciatotal,
+.legajono,
+.númerodefojas,
+.clavealmacenanverso,
+.documentoadministrativo,
+.nombre-s,
+.númerodeexpediente,
+.númerodeseguridadsocial-agregadomédico,
+.curp {
+  @include common-text-styles;
+}
+
+.informacionconfidencial {
+  @include text-style(18px, left, 265px);
+  @include absolute-position(364px, 637px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.direcciondeprestacionesmedicas {
+  @include text-style(16px, left, 316px);
+  @include absolute-position(332px, 612px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.seguridadysolidaridadsocial {
+  @include text-style(16px, center, 285px);
+  @include absolute-position(307px, 627px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.institutomexicanodelsegurosocial {
+  @include text-style(20px, left, 436px);
+  @include absolute-position(270px, 552px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.solologo1 {
+  @include size(46px, 53px);
+  @include absolute-position(203px, 750px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.headerbox {
+  background-color: transparent;
+  @include size(75px, 794px);
+  border: 2px solid $color-black;
+  margin: 10px 0;
+}
+
+.imss1 {
+  @include size(65px, 507px);
+  @include absolute-position(5px, 57px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.line1 {
+  width: 554px;
+  border: $border-solid-black;
+
+  @include absolute-position(520px, 493px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.apellidopaterno {
+  @include text-style(10px, center, 102px);
+  @include absolute-position(523px, 591px); //!!!!!!!!!!!!!!!!!!!!!
+  flex: 1;
+  display: block;
+  text-align: center;
+}
+
+.apellidomaterno {
+  @include text-style(10px, center, 102px);
+  @include absolute-position(523px, 835px); //!!!!!!!!!!!!!!!!!!!!!
+  flex: 1;
+  display: block;
+  text-align: center;
+}
+
+.rectangle5 {
+  @include size(91px, 554px);
+  @include border-radius($border-radius-20);
+  @include absolute-position(537px, 493px); //!!!!!!!!!!!!!!!!!!!!!
+  margin-bottom: 20px;
+
+  align-content: center;
+}
+
+.rectangle6 {
+  @include size(229px, 554px);
+
+  @include absolute-position(655px, 493px); //!!!!!!!!!!!!!!!!!!!!!
+  margin-bottom: 20px;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(14, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.rectangle7 {
+  @include size(148px, 554px);
+  @include absolute-position(930px, 493px); //!!!!!!!!!!!!!!!!!!!!!
+  margin-bottom: 20px;
+}
+
+.padre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #c5ac63af;
+}
+.anversodeportada {
+  @include text-style(20px, left, 232px);
+  @include absolute-position(174px, 654px); //!!!!!!!!!!!!!!!!!!!!!
+  display: block;
+  width: auto;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.seriedocumental257 {
+  @include text-style(11px, center, 126px);
+  @include absolute-position(386px, 707px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.carpetadecontenciondelexpedienteclinico {
+  @include text-style(22px, center, 380px);
+  @include absolute-position(405px, 580px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.frame2,
+.frame1,
+.frame3,
+.frame4,
+.frame5 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.frame2 {
+  @include absolute-position(605px, auto); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.domicilio,
+.fechadeapertura,
+.fechadecierre {
+  @include text-style(10px, center, 184.6666666666667px);
+  @include absolute-position(auto, 10px); //!!!!!!!!!!!!!!!!!!!!!
+  display: flex;
+  justify-content: center;
+}
+
+.frame1 {
+  @include size(0px, 531px);
+  @include absolute-position(602px, 509px); //!!!!!!!!!!!!!!!!!!!!!
+  gap: 26px;
+  background-color: aqua;
+}
+
+.line5,
+.line6,
+.line7 {
+  width: 153px;
+  border: $border-solid-black;
+
+  top: 0;
+  transform: rotate(0deg);
+}
+
+.line5 {
+  left: 10px;
+}
+
+.line6 {
+  left: 189px;
+}
+
+.line7 {
+  left: 368px;
+}
+
+.vigenciadocumental {
+  @include text-style(15px, center, 322px);
+  @include absolute-position(939px, 680px); //!!!!!!!!!!!!!!!!!!!!!
+  width: auto;
+  display: block;
+  margin: 5px;
+}
+
+.archivodetrámite-seccióniactivos {
+  @include text-style(11px, center, 111px);
+  @include absolute-position(970px, 545px); //!!!!!!!!!!!!!!!!!!!!!
+  width: auto;
+}
+
+.períodoadicionalporserdonadordesangre {
+  @include text-style(11px, center, 190px);
+  @include absolute-position(970px, 835px); //!!!!!!!!!!!!!!!!!!!!!
+  width: auto;
+}
+
+.períodoadicionalporsisioautoridadjudicial {
+  @include text-style(11px, center, 190px);
+  @include absolute-position(1013px, 835px); //!!!!!!!!!!!!!!!!!!!!!
+  width: auto;
+}
+
+.clave2b52-009-025 {
+  @include text-style(16px, center, 121px);
+  height: 4%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: auto;
+}
+
+.archivodeconcentración-seccióniisemiactivos {
+  @include text-style(11px, center, 145px);
+  @include absolute-position(1013px, 528px); //!!!!!!!!!!!!!!!!!!!!!
+  width: auto;
+}
+
+.vigenciatotal {
+  @include text-style(11px, center, 100px);
+  @include absolute-position(1052px, 562px); //!!!!!!!!!!!!!!!!!!!!!
+  display: flex;
+  justify-content: flex-end;
+}
+
+.frame3 {
+  @include size(43.2px, 175.7px);
+  @include absolute-position(1107px, 516px); //!!!!!!!!!!!!!!!!!!!!!
+  padding-left: 10px;
+  padding-right: 10px;
+  gap: 17px;
+  flex: 1;
+}
+
+.legajono {
+  @include text-style(11px, center, 54px);
+  @include absolute-position(15.1px, 10px); //!!!!!!!!!!!!!!!!!!!!!
+  height: 13px;
+}
+
+.rectangle8 {
+  @include size(43.2px, 84.7px);
+  @include absolute-position(0, 81px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.frame4 {
+  @include size(43.2px, 208.7px);
+  @include absolute-position(1110px, 805px); //!!!!!!!!!!!!!!!!!!!!!
+  padding-left: 10px;
+  padding-right: 10px;
+  gap: 15px;
+  flex: 1;
+}
+
+.númerodefojas {
+  @include text-style(11px, center, 89px);
+  @include absolute-position(15.1px, 10px); //!!!!!!!!!!!!!!!!!!!!!
+  height: 13px;
+}
+
+.rectangle9 {
+  @include size(43.2px, 84.7px);
+  @include absolute-position(0, 114px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.frame5 {
+  @include size(10px, 391px);
+  @include absolute-position(1186px, 574px); //!!!!!!!!!!!!!!!!!!!!!
+  padding-left: 10px;
+  padding-right: 10px;
+  justify-content: space-between;
+}
+
+.clavealmacenanverso {
+  @include text-style(8px, center, 87px);
+  @include absolute-position(0, 10px); //!!!!!!!!!!!!!!!!!!!!!
+  height: 10px;
+}
+
+.documentoadministrativo {
+  @include text-style(8px, center, 99px);
+  @include absolute-position(0, 282px);
+  height: 10px;
+}
+
+.nombre-s {
+  @include text-style(8px, center, 43px);
+  @include absolute-position(693px, 125px);
+  margin-left: 40px;
+}
+
+.númerodeexpediente {
+  @include text-style(8px, center, 122px);
+  @include absolute-position(617px, 122px); //!!!!!!!!!!!!!!!!!!!!!
+  margin-left: 40px;
+}
+
+.númerodeseguridadsocial-agregadomédico {
+  @include text-style(8px, center, 216px);
+  @include absolute-position(635px, 122px); //!!!!!!!!!!!!!!!!!!!!!
+  margin-left: 40px;
+}
+
+.curp {
+  @include text-style(8px, center, 23px);
+  @include absolute-position(665px, 122px); //!!!!!!!!!!!!!!!!!!!!!
+  margin-left: 40px;
+}
+
+.rectangle10 {
+  @include size(102.63px, 385.86px);
+  @include border-radius(40px);
+  @include absolute-position(628px, 75px); //!!!!!!!!!!!!!!!!!!!!!
+  display: grid;
+  align-content: center;
+}
+
+.line11,
+.line12,
+.line13 {
+  width: 322px;
+  border: $border-solid-black;
+  margin-left: 40px;
+}
+
+.line11 {
+  @include absolute-position(663px, 122px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.line12 {
+  @include absolute-position(691px, 122px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.line13 {
+  @include absolute-position(720px, 122px); //!!!!!!!!!!!!!!!!!!!!!
+}
+
+.rotate {
+  transform: rotate(270deg) translateY(0px) translateX(-290px);
+}
+.tipos {
+  display: flex;
+  height: 80px;
+}
+.nombres {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.padrelegajofojas {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.datos {
+  @include text-style(8px, start, auto);
+  margin-left: 40px;
+}
+
+.div100 {
+  grid-area: 1 / 1 / 3 / 4;
+  border: $border-solid-black;
+  text-align: center;
+}
+.div200 {
+  grid-area: 1 / 4 / 3 / 6;
+  border: $border-solid-black;
+
+  display: flex; /* Activar Flexbox */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+
+  @include text-style(11px, center, auto);
+}
+
+.div300 {
+  grid-area: 3 / 4 / 8 / 6;
+  border: $border-solid-black;
+}
+.div400 {
+  grid-area: 8 / 4 / 13 / 6;
+  border: $border-solid-black;
+}
+.div500 {
+  grid-area: 13 / 4 / 15 / 6;
+  border: $border-solid-black;
+}
+.div600 {
+  grid-area: 3 / 1 / 5 / 2;
+  border: $border-solid-black;
+  text-align: center;
+}
+.div700 {
+  grid-area: 3 / 2 / 5 / 3;
+  border: $border-solid-black;
+  text-align: center;
+}
+.div800 {
+  grid-area: 3 / 3 / 5 / 4;
+  border: $border-solid-black;
+  text-align: center;
+}
+.div900 {
+  grid-area: 5 / 1 / 7 / 2;
+  border: $border-solid-black;
+  font-size: small;
+  text-align: center;
+  padding: 0.25rem;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  line-height: 1.2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.div1000 {
+  grid-area: 5 / 2 / 7 / 3;
+  border: $border-solid-black;
+  text-align: center;
+}
+.div1100 {
+  grid-area: 5 / 3 / 7 / 4;
+  border: $border-solid-black;
+  text-align: center;
+}
+.div1200 {
+  grid-area: 7 / 1 / 9 / 2;
+  border: $border-solid-black;
+}
+.div1300 {
+  grid-area: 7 / 2 / 9 / 3;
+  border: $border-solid-black;
+}
+.div1400 {
+  grid-area: 7 / 3 / 9 / 4;
+  border: $border-solid-black;
+}
+.div1500 {
+  grid-area: 9 / 1 / 11 / 2;
+  border: $border-solid-black;
+}
+.div1600 {
+  grid-area: 9 / 2 / 11 / 3;
+  border: $border-solid-black;
+}
+.div1700 {
+  grid-area: 9 / 3 / 11 / 4;
+  border: $border-solid-black;
+}
+.div1800 {
+  grid-area: 11 / 1 / 13 / 2;
+  border: $border-solid-black;
+}
+.div1900 {
+  grid-area: 11 / 2 / 13 / 3;
+  border: $border-solid-black;
+}
+.div2000 {
+  grid-area: 11 / 3 / 13 / 4;
+  border: $border-solid-black;
+}
+.div2100 {
+  grid-area: 13 / 1 / 15 / 2;
+  border: $border-solid-black;
+}
+.div2200 {
+  grid-area: 13 / 2 / 15 / 3;
+  border: $border-solid-black;
+}
+.div2300 {
+  grid-area: 13 / 3 / 15 / 4;
+  border: $border-solid-black;
+}
+
+.input {
+  @include text-style(18px, center, auto);
+}
+/* Subrayado estilo personalizado */
+.subrayado {
+  background-color: yellow;
+  color: black;
+  padding: 0 4px;
+  border-radius: 2px;
+  text-decoration: underline; /* Asegurando que el texto también esté subrayado */
+}
+
+/* Aseguramos que los estilos se apliquen también en la impresión */
+@media print {
+  .subrayado {
+    background-color: yellow !important; /* Asegurar que se respete en la impresión */
+    color: black !important; /* Aseguramos que el color negro también se aplique */
+    padding: 0 4px !important; /* Aseguramos el padding */
+    border-radius: 2px !important; /* Bordes redondeados */
+    text-decoration: underline !important; /* Subrayado siempre presente */
+  }
+}
+
+.numsegso {
+  font-size: 2rem;
+  font-weight: 300;
+  color: black;
+  font-family: cursive;
+  text-align: center;
+}

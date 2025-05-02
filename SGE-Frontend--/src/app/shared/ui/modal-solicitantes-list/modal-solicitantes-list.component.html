@@ -1,0 +1,415 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg w-[80vw] md:w-[60vw] p-8 h-[80vh] overflow-y-auto">
+    <div *ngIf="role === 'arimac'">
+      <h2 class="text-2xl font-bold text-center text-green-700 dark:text-white mb-6">
+        Registrar Préstamo de Expediente (ARIMAC)
+      </h2>
+    </div>
+    <div *ngIf="role === 'admin'">
+      <h2 class="text-2xl font-bold text-center text-green-700 dark:text-white mb-6">
+        Registrar Préstamo de Expediente (ADMINISTRADOR)
+      </h2>
+    </div>
+
+    <div class="flex mb-6 border-b border-gray-300">
+      <button
+        class="py-2 px-6 text-sm font-medium text-gray-700 rounded-t-lg focus:outline-none relative"
+        [ngClass]="{
+          'text-green-500': currentTab === 'tab1',
+          'bg-white': currentTab === 'tab1',
+          'border-b-2 border-green-500': currentTab === 'tab1',
+          'hover:bg-gray-100': currentTab !== 'tab1',
+        }"
+        (click)="setTab('tab1')"
+      >
+        Ver préstamos
+      </button>
+      <button
+        class="py-2 px-6 text-sm font-medium text-gray-700 rounded-t-lg focus:outline-none relative"
+        [ngClass]="{
+          'text-green-500': currentTab === 'tab2',
+          'bg-white': currentTab === 'tab2',
+          'border-b-2 border-green-500': currentTab === 'tab2',
+          'hover:bg-gray-100': currentTab !== 'tab2',
+        }"
+        (click)="setTab('tab2')"
+      >
+        Agregar préstamo
+      </button>
+    </div>
+
+    <div [ngClass]="{ hidden: currentTab !== 'tab1' }" class="space-y-10">
+      <h3 class="text-2xl font-bold text-gray-800">Historial de Préstamos</h3>
+
+      <div *ngIf="prestamos.length === 0" class="text-center text-gray-500 py-10">
+        <div class="text-lg">No hay préstamos registrados.</div>
+      </div>
+
+      <div
+        *ngFor="let prestamo of prestamos"
+        class="bg-white border-l-4 rounded-lg shadow-sm p-6 space-y-6"
+        [ngClass]="{
+          'border-green-500': prestamo.estado === 'Aprobado',
+          'border-yellow-500': prestamo.estado === 'Pendiente',
+          'border-red-500': prestamo.estado === 'Rechazado',
+        }"
+      >
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="text-lg font-semibold text-gray-800">Folio: {{ prestamo.folio }}</h4>
+            <p class="text-sm text-gray-500">Solicitud: {{ prestamo.fecha_solicitud | date: "dd/MM/yyyy HH:mm" }}</p>
+          </div>
+          <div
+            class="px-3 py-1 rounded-full text-sm font-medium"
+            [ngClass]="{
+              'bg-green-100 text-green-700': prestamo.estado === 'Aprobado',
+              'bg-yellow-100 text-yellow-700': prestamo.estado === 'Pendiente',
+              'bg-red-100 text-red-700': prestamo.estado === 'Rechazado',
+            }"
+          >
+            {{ prestamo.estado }}
+          </div>
+        </div>
+
+        <div>
+          <h5 class="text-sm font-semibold text-gray-500 mb-2 border-b pb-1">Datos del Solicitante</h5>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+            <p>
+              <span class="font-semibold">Nombre:</span>
+              {{ prestamo.nombre }}
+            </p>
+            <p>
+              <span class="font-semibold">Matrícula:</span>
+              {{ prestamo.matricula }}
+            </p>
+            <p>
+              <span class="font-semibold">Correo:</span>
+              {{ prestamo.correo }}
+            </p>
+            <p>
+              <span class="font-semibold">Teléfono:</span>
+              {{ prestamo.telefono }}
+            </p>
+            <p *ngIf="prestamo.datos_solicitante">
+              <span class="font-semibold">Datos extra:</span>
+              {{ prestamo.datos_solicitante }}
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="text-sm font-semibold text-gray-500 mb-2 border-b pb-1">Detalles del Préstamo</h5>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+            <p>
+              <span class="font-semibold">Especialidad:</span>
+              {{ prestamo.serv_especialidad }}
+            </p>
+            <p>
+              <span class="font-semibold">Consultorio:</span>
+              {{ prestamo.consultorio }}
+            </p>
+            <p>
+              <span class="font-semibold">Categoría:</span>
+              {{ prestamo.categoria }}
+            </p>
+            <p>
+              <span class="font-semibold">Tipo:</span>
+              {{ prestamo.prestamo_tipo }}
+            </p>
+            <p>
+              <span class="font-semibold">Turno:</span>
+              {{ prestamo.turno === "M" ? "Matutino" : "Vespertino" }}
+            </p>
+            <p>
+              <span class="font-semibold">Motivo:</span>
+              {{ prestamo.motivo }}
+            </p>
+            <p *ngIf="prestamo.observaciones">
+              <span class="font-semibold">Observaciones:</span>
+              {{ prestamo.observaciones }}
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="text-sm font-semibold text-gray-500 mb-2 border-b pb-1">Fechas</h5>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-700">
+            <p>
+              <span class="font-semibold">Fecha de Préstamo:</span>
+              {{ prestamo.fecha_prestamo | date: "dd/MM/yyyy" }}
+            </p>
+            <p *ngIf="prestamo.fecha_devolucion">
+              <span class="font-semibold">Fecha de Devolución:</span>
+              {{ prestamo.fecha_devolucion | date: "dd/MM/yyyy" }}
+            </p>
+          </div>
+        </div>
+
+        <div *ngIf="role === 'admin'" class="flex justify-end mt-6">
+          <div *ngIf="prestamo.estado === 'Aprobado'" class="space-x-2">
+            <button
+              (click)="devolverPrestamo()"
+              class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 text-white text-sm font-semibold px-5 py-2.5 rounded-md transition duration-200"
+            >
+              Devolver Préstamo
+            </button>
+          </div>
+
+          <div *ngIf="prestamo.estado === 'Pendiente'" class="flex flex-wrap gap-3">
+            <button
+              class="bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800 text-white text-sm font-semibold px-5 py-2.5 rounded-md transition duration-200"
+              (click)="autorizarPrestamo()"
+            >
+              Autorizar
+            </button>
+            <button
+              class="bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 text-white text-sm font-semibold px-5 py-2.5 rounded-md transition duration-200"
+              (click)="rechazarPrestamo()"
+            >
+              Rechazar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button
+          type="button"
+          class="bg-gray-300 hover:bg-gray-400 text-gray-700 text-sm px-6 py-3 rounded-md"
+          (click)="close()"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+
+    <div [ngClass]="{ hidden: currentTab !== 'tab2' }">
+      <h3 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2">Crear nuevo préstamo</h3>
+
+      <form class="w-full max-w-3xl mx-auto" (ngSubmit)="onSubmit()" #prestamoForm="ngForm">
+        <h4 class="text-lg font-semibold text-gray-700 mt-6 mb-4">Datos del Solicitante</h4>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label for="folio" class="block text-sm font-medium text-gray-600 mb-1">Folio</label>
+            <input
+              type="number"
+              id="folio"
+              name="folio"
+              required
+              min="0"
+              autocomplete="off"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.folio"
+              placeholder="Ingrese el folio"
+            />
+          </div>
+
+          <div>
+            <label for="nombre" class="block text-sm font-medium text-gray-600 mb-1">Nombre</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              required
+              autocomplete="name"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.nombre"
+              placeholder="Ingrese el nombre del solicitante"
+            />
+          </div>
+
+          <div>
+            <label for="matricula" class="block text-sm font-medium text-gray-600 mb-1">Matrícula</label>
+            <input
+              type="text"
+              id="matricula"
+              name="matricula"
+              required
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.matricula"
+              placeholder="Ingrese la matrícula del solicitante"
+            />
+          </div>
+
+          <div>
+            <label for="categoria" class="block text-sm font-medium text-gray-600 mb-1">Categoría</label>
+            <input
+              type="text"
+              id="categoria"
+              name="categoria"
+              required
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.categoria"
+              placeholder="Ingrese la categoría"
+            />
+          </div>
+
+          <div>
+            <label for="servicio" class="block text-sm font-medium text-gray-600 mb-1">Servicio o Especialidad</label>
+            <input
+              type="text"
+              id="servicio"
+              name="servicio"
+              required
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.serv_especialidad"
+              placeholder="Ingrese el servicio o especialidad"
+            />
+          </div>
+
+          <div>
+            <label for="consultorio" class="block text-sm font-medium text-gray-600 mb-1">Consultorio</label>
+            <input
+              type="text"
+              id="consultorio"
+              name="consultorio"
+              required
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.consultorio"
+              placeholder="Ingrese el consultorio"
+            />
+          </div>
+        </div>
+
+        <h4 class="text-lg font-semibold text-gray-700 mt-8 mb-4">Información de Contacto</h4>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label for="telefono" class="block text-sm font-medium text-gray-600 mb-1">Teléfono / Ext</label>
+            <input
+              type="tel"
+              id="telefono"
+              name="telefono"
+              required
+              autocomplete="tel"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.telefono"
+              placeholder="Ingrese el teléfono o extensión"
+            />
+          </div>
+
+          <div>
+            <label for="correo" class="block text-sm font-medium text-gray-600 mb-1">Correo electrónico</label>
+            <input
+              type="email"
+              id="correo"
+              name="correo"
+              required
+              autocomplete="email"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.correo"
+              placeholder="Ingrese el correo"
+            />
+          </div>
+        </div>
+
+        <h4 class="text-lg font-semibold text-gray-700 mt-8 mb-4">Detalles del Préstamo</h4>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label for="turno" class="block text-sm font-medium text-gray-600 mb-1">Turno</label>
+            <select
+              id="turno"
+              name="turno"
+              required
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.turno"
+            >
+              <option value="" disabled selected>Seleccione el turno</option>
+              <option value="M">Matutino</option>
+              <option value="V">Vespertino</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="motivo" class="block text-sm font-medium text-gray-600 mb-1">Motivo del Préstamo</label>
+            <select
+              id="motivo"
+              name="motivo"
+              required
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.motivo"
+            >
+              <option value="" disabled selected>Seleccione el motivo</option>
+              <option value="Investigacion">Investigación</option>
+              <option value="Auditoria y Superviciones">Auditoría y Supervisiones</option>
+              <option value="Auditoria Judicial">Auditoría Judicial</option>
+              <option value="Capital Constitutivo">Capital Constitutivo</option>
+              <option value="Atencion Medica">Atención Médica</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-6">
+          <div>
+            <label for="datos_solicitante" class="block text-sm font-medium text-gray-600 mb-1">
+              Datos extra del solicitante
+            </label>
+            <textarea
+              id="datos_solicitante"
+              name="datos_solicitante"
+              rows="3"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.datos_solicitante"
+              placeholder="Ingrese datos adicionales del solicitante"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="observaciones" class="block text-sm font-medium text-gray-600 mb-1">Observaciones</label>
+            <textarea
+              id="observaciones"
+              name="observaciones"
+              rows="3"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              [(ngModel)]="prestamo.observaciones"
+              placeholder="Ingrese observaciones adicionales"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-8 gap-4">
+          <button
+            type="button"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-sm font-medium px-6 py-2 rounded-lg transition"
+            (click)="close()"
+          >
+            Cerrar
+          </button>
+
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-6 py-2 rounded-lg transition flex items-center justify-center"
+            [disabled]="procesando"
+          >
+            <span *ngIf="!procesando">Registrar Préstamo</span>
+            <span *ngIf="procesando" class="flex items-center">
+              <svg
+                class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Procesando...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <app-modal-exito
+      [mensaje]="mensajeExito"
+      (onClose)="cerrarModalExito()"
+      *ngIf="mostrarModalExito"
+    ></app-modal-exito>
+
+    <app-modal-errores [errores]="errores" *ngIf="mostrarModalError" (onClose)="cerrarModalError()"></app-modal-errores>
+  </div>
+</div>

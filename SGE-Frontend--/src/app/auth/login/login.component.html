@@ -1,0 +1,63 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-300">
+  <div class="w-full max-w-sm">
+    <form
+      class="bg-white/70 backdrop-blur-lg rounded-xl shadow-lg p-10"
+      [formGroup]="userForm"
+      (ngSubmit)="OnSubmit()"
+    >
+      <div class="flex justify-center mb-8">
+        <img class="h-24 w-auto" src="images/Logo.png" alt="LOGO IMMS" />
+      </div>
+
+     
+      <div class="mb-5">
+        <label for="correo" class="block text-gray-700 text-sm font-semibold mb-1">
+          Correo
+        </label>
+        <input
+          formControlName="correo"
+          type="email"
+          id="correo"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          placeholder="usuario@ejemplo.com"
+          required
+        />
+        <div *ngIf="userForm.get('correo')?.invalid && userForm.get('correo')?.touched" class="text-red-500 text-xs mt-1">
+          Correo inválido.
+        </div>
+      </div>
+
+     
+      <div class="mb-5">
+        <label for="contrasena" class="block text-gray-700 text-sm font-semibold mb-1">
+          Contraseña
+        </label>
+        <input
+          formControlName="contrasena"
+          type="password"
+          id="contrasena"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          placeholder="********"
+          required
+          minlength="8"
+        />
+        <div *ngIf="userForm.get('contrasena')?.invalid && userForm.get('contrasena')?.touched" class="text-red-500 text-xs mt-1">
+          Contraseña inválida.
+        </div>
+      </div>
+
+     
+      <button
+        type="submit"
+        [disabled]="!userForm.valid"
+        class="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 
+               focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm 
+               px-5 py-2.5 text-center"
+      >
+        Ingresar
+      </button>
+    </form>
+  </div>
+</div>

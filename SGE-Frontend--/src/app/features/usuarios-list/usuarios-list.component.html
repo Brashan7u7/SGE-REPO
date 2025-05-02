@@ -1,0 +1,108 @@
+<h1 class="text-2xl font-bold mb-6 text-green-700 dark:text-white text-center">Gestión de Usuarios</h1>
+
+<div class="max-w-6xl mx-auto p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm text-left text-gray-600 dark:text-gray-200">
+      <thead class="text-xs text-green-800 uppercase bg-green-100 dark:bg-green-900 dark:text-green-200">
+        <tr>
+          <th class="px-6 py-4">Nombre completo</th>
+          <th class="px-6 py-4">Correo electrónico</th>
+          <th class="px-6 py-4">Rol</th>
+          <th class="px-6 py-4 text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let usuario of usuarios"
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-gray-700 transition-colors"
+        >
+          <td class="px-6 py-4">
+            {{ usuario.nombre }} {{ usuario.apellido_paterno }} {{ usuario.apellido_materno }}
+          </td>
+          <td class="px-6 py-4">{{ usuario.correo }}</td>
+          <td class="px-6 py-4">
+            <span class="inline-block px-2 py-1 text-xs font-medium rounded-full"
+              [ngClass]="usuario.esAdmin === true ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-700'">
+              {{ usuario.esAdmin === true ? 'Administrador' : 'Arimac' }}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-center space-x-2">
+            <button
+              (click)="iniciarEdicion(usuario)"
+              class="text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-lg text-xs transition"
+              title="Editar usuario"
+            >
+              Editar
+            </button>
+            <button
+              (click)="eliminarUsuario(usuario.id_usuario)"
+              class="text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg text-xs transition"
+              title="Eliminar usuario"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="usuarios.length === 0" class="text-center text-gray-500 dark:text-gray-400 mt-6">
+    No hay usuarios registrados aún.
+  </p>
+</div>
+
+
+<div *ngIf="editingUser" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg w-96">
+    <h2 class="text-xl font-bold mb-4">Editar Usuario</h2>
+    <form (ngSubmit)="guardarEdicion()">
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700 dark:text-white">
+          Correo Electrónico
+        </label>
+        <input
+          type="email"
+          [(ngModel)]="editingUser.correo"
+          name="correoEdit"
+          class="input-text w-full"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700 dark:text-white">
+          Teléfono
+        </label>
+        <input
+          type="text"
+          [(ngModel)]="editingUser.telefono"
+          name="telefonoEdit"
+          class="input-text w-full"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700 dark:text-white">
+          ¿Es Administrador?
+        </label>
+        <select
+          [(ngModel)]="editingUser.esAdmin"
+          name="esAdminEdit"
+          class="input-select w-full"
+          required
+        >
+          <option [ngValue]="true">Sí</option>
+          <option [ngValue]="false">No</option>
+        </select>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button type="button" (click)="cancelarEdicion()" class="px-4 py-2 bg-gray-500 text-white rounded">
+          Cancelar
+        </button>
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

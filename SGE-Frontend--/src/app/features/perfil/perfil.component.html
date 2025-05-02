@@ -1,0 +1,36 @@
+<div class="container mx-auto p-6 max-w-4xl">
+    <h2 class="text-4xl font-bold text-center text-green-600 mb-8">Perfil</h2>
+  
+    
+    <div class="bg-white p-8 rounded-lg shadow-xl space-y-6 border border-gray-200">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Historial de Movimientos</h3>
+  
+      <div
+        *ngFor="let movimiento of movimientos"
+        class="border-b last:border-b-0 py-6 px-4 rounded-lg transition-all duration-300 hover:bg-green-50"
+      >
+        <div class="flex justify-between items-start space-x-4">
+          <div class="flex flex-col space-y-1">
+            <p class="text-lg font-semibold text-gray-800">
+              {{ movimiento.tipo_accion }} -
+              <span class="text-green-500">{{ movimiento.tipo_actor }}</span>
+            </p>
+            <p class="text-sm text-gray-500">{{ movimiento.fecha_accion | date: 'short' }}</p>
+          </div>
+  
+          <div class="flex flex-col items-end space-y-1">
+           
+            <div class="overflow-x-auto max-w-full">
+              <p class="text-sm text-gray-700 font-medium whitespace-pre-wrap break-all">{{ movimiento.descripcion_accion }}</p>
+            </div>
+            <div class="mt-2"></div>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="movimientos.length === 0" class="text-center text-gray-500 mt-4">
+        <p class="italic">No se han registrado movimientos.</p>
+      </div>
+    </div>
+  </div>
+  

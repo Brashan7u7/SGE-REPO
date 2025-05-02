@@ -1,0 +1,181 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-center text-2xl font-bold text-gray-800 dark:text-gray-200 mb-8">
+    Búsqueda de Pacientes por Expediente
+  </h1>
+
+  <div class="mb-6">
+    <app-search-form (filterChange)="onFilterChange($event)"></app-search-form>
+  </div>
+
+  <div
+    class="relative overflow-x-auto shadow-lg sm:rounded-lg border border-gray-200 dark:border-gray-700 max-h-[calc(5000vh-50px)]"
+  >
+    <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-300">
+        <tr>
+          <th class="px-6 py-3 text-center">Num. de Seguridad Social</th>
+          <th class="px-6 py-3 text-center">Agregado Médico</th>
+          <th class="px-6 py-3 text-center">Nombre</th>
+          <th class="px-6 py-3 text-center">Apellido Paterno</th>
+          <th class="px-6 py-3 text-center">Vigencia documental</th>
+          <th class="px-6 py-3 text-center">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let expediente of listExpedientes"
+          class="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 text-center"
+        >
+          <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100 text-center">
+            {{ expediente.num_seg_social }}
+          </td>
+          <td class="px-6 py-4 text-gray-700 dark:text-gray-300 text-center">{{ expediente.agregado_medico }}</td>
+          <td class="px-6 py-4 text-gray-700 dark:text-gray-300 text-center">{{ expediente.nombre }}</td>
+          <td class="px-6 py-4 text-gray-700 dark:text-gray-300 text-center">{{ expediente.apellido_paterno }}</td>
+          <td class="px-6 py-4">
+            <ng-container [ngSwitch]="expediente.vigencia_documental">
+              <span
+                *ngSwitchCase="'Seccion I'"
+                class="bg-green-200 text-green-900 px-4 py-2 rounded-full font-semibold text-center block"
+              >
+                Archivo de Trámite (Sección I Activos)
+              </span>
+              <span
+                *ngSwitchCase="'Seccion II'"
+                class="bg-yellow-200 text-yellow-900 px-4 py-2 rounded-full font-semibold text-center block"
+              >
+                Archivo de Concentración (Sección II Semiactivos)
+              </span>
+
+              <span
+                *ngSwitchCase="'Donador de sangre'"
+                class="bg-blue-200 text-blue-900 px-4 py-2 rounded-full font-semibold text-center block"
+              >
+                Período adicional por ser donador de sangre
+              </span>
+              <span
+                *ngSwitchCase="'SISI o Aut Judicial'"
+                class="bg-red-200 text-red-900 px-4 py-2 rounded-full font-semibold text-center block"
+              >
+                Período adicional por SISI o Autoridad Judicial
+              </span>
+              <span
+                *ngSwitchDefault
+                class="bg-gray-200 text-gray-900 px-4 py-2 rounded-full font-semibold text-center block"
+              >
+                Vigencia desconocida
+              </span>
+            </ng-container>
+          </td>
+          <td class="px-6 py-4 space-x-2 flex items-center">
+            <!--        Ver                   -->
+            <a
+              [routerLink]="['/files_view', expediente.id_expediente]"
+              class="inline-flex items-center text-green-600 dark:text-green-400 hover:underline"
+              title="Visualizar"
+            >
+              <img src="images/vision.png" alt="Visualizar" class="w-6 h-6 mr-2" />
+            </a>
+            <!--        editar                   -->
+            <button
+              (click)="openModal('editar', expediente)"
+              class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+              title="Editar"
+            >
+              <img src="images/edit.png" alt="Editar" class="w-6 h-6 mr-2" />
+            </button>
+            <app-modal-editar
+              *ngIf="showModalEditar === expediente"
+              [expediente]="showModalEditar"
+              (onSave)="handleSave($event)"
+              (onClose)="closeModal('editar')"
+            ></app-modal-editar>
+            <!--        observaciones                   -->
+            <button
+              (click)="openModal('observaciones', expediente)"
+              class="inline-flex items-center text-yellow-600 dark:text-yellow-400 hover:underline"
+              title="Observaciones"
+            >
+              <img src="images/observaciones.png" alt="Observaciones" class="w-6 h-6 mr-2" />
+            </button>
+            <app-modal-observaciones
+              *ngIf="showModalObservaciones === expediente"
+              [expediente]="showModalObservaciones"
+              (onClose)="closeModal('observaciones')"
+            ></app-modal-observaciones>
+            <!--        prestamo                   -->
+            <button
+              (click)="openModal('prestamo', expediente)"
+              class="inline-flex items-center text-yellow-600 dark:text-yellow-400 hover:underline"
+              title="Solicitante"
+            >
+              <img src="images/solicitante.png" alt="Prestamo" class="w-6 h-6 mr-2" />
+            </button>
+            <app-modal-solicitantes-list
+              *ngIf="showModalPrestamo === expediente"
+              [expediente]="showModalPrestamo"
+              (onClose)="closeModal('prestamo')"
+            ></app-modal-solicitantes-list>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex justify-end w-full sticky bottom-0 bg-white z-10 py-2 px-4">
+    <nav class="flex items-center -space-x-px" aria-label="Pagination">
+      <button
+        type="button"
+        class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+      >
+        <svg
+          class="shrink-0 size-3.5"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+      </button>
+
+      <button
+        *ngFor="let page of getPaginatedPages()"
+        (click)="goToPage(page)"
+        [class.bg-gray-200]="currentPage === page"
+        class="min-h-[38px] min-w-[38px] flex justify-center items-center border border-gray-200 text-gray-800 py-2 px-3 text-sm first:rounded-s-lg last:rounded-e-lg focus:outline-none focus:bg-gray-300"
+      >
+        {{ page }}
+      </button>
+
+      <button
+        type="button"
+        class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+        (click)="nextPage()"
+        [disabled]="currentPage === lastPage"
+      >
+        <svg
+          class="shrink-0 size-3.5"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</div>

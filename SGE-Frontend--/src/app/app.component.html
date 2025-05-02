@@ -1,0 +1,4 @@
+<app-header *ngIf="isLogin"></app-header>
+<main [ngClass]="{ 'logged-in': isLogin }">
+  <router-outlet></router-outlet>
+</main>

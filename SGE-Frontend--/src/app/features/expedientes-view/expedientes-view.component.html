@@ -1,0 +1,168 @@
+<div class="padre" id="expedientes-content">
+  <div id="headerbox" class="headerbox">
+    <div class="numsegso">{{ expediente.num_seg_social }}</div>
+  </div>
+
+  <div id="bodybox" class="bodybox">
+    <div class="izquierda">
+      <div class="rotate">
+        <div id="númerodeexpediente" class="númerodeexpediente">NÚMERO DE EXPEDIENTE</div>
+        <div id="rectangle10" class="rectangle10">
+          <div id="númerodeseguridadsocial-agregadomédico" class="númerodeseguridadsocial-agregadomédico">
+            NÚMERO DE SEGURIDAD SOCIAL / AGREGADO MÉDICO
+          </div>
+          <div id="datos" class="datos">{{ expediente.num_seg_social }} / {{ expediente.agregado_medico }}</div>
+          <div id="line11" class="line11"></div>
+          <div id="nombre-s" class="nombre-s">Nombre(S)</div>
+          <div id="datos" class="datos">{{ expediente.nombre }}</div>
+          <div id="line12" class="line12"></div>
+          <div id="curp" class="curp">CURP</div>
+          <div id="datos" class="datos">{{ expediente.curp }}</div>
+          <div id="line13" class="line13"></div>
+        </div>
+      </div>
+    </div>
+    <div class="derecha">
+      <div id="anversodeportada" class="anversodeportada">ANVERSO DE PORTADA</div>
+      <div id="rectanglePortada" class="rectanglePortada">
+        <img id="solologo1" class="solologo1" src="images/solologo.png" />
+        <div id="institutomexicanodelsegurosocial" class="institutomexicanodelsegurosocial">
+          INSTITUTO MEXICANO DEL SEGURO SOCIAL
+        </div>
+        <div id="seguridadysolidaridadsocial" class="seguridadysolidaridadsocial">SEGURIDAD Y SOLIDARIDAD SOCIAL</div>
+        <div id="direcciondeprestacionesmedicas" class="direcciondeprestacionesmedicas">
+          DIRECCION DE PRESTACIONES MEDICAS
+        </div>
+        <div id="informacionconfidencial" class="informacionconfidencial">INFORMACION CONFIDENCIAL</div>
+        <div id="seriedocumental257" class="seriedocumental257">Serie documental 257</div>
+        <div id="carpetadecontenciondelexpedienteclinico" class="carpetadecontenciondelexpedienteclinico">
+          CARPETA DE CONTENCION DEL EXPEDIENTE CLINICO
+        </div>
+      </div>
+      <div class="nombres">
+        <div class="padrenombres">
+          <div id="apellidopaterno" class="apellidopaterno input">{{ expediente.apellido_paterno }}</div>
+          <div id="apellidomaterno" class="apellidomaterno input">{{ expediente.apellido_materno }}</div>
+        </div>
+        <div id="line1" class="line1"></div>
+        <div class="padrenombres">
+          <div id="apellidopaterno" class="apellidopaterno">APELLIDO PATERNO</div>
+          <div id="apellidomaterno" class="apellidomaterno">APELLIDO MATERNO</div>
+        </div>
+      </div>
+
+      <div id="rectangle5" class="rectangle5">
+        <div id="frame2" class="frame2">
+          <div id="domicilio" class="domicilio">{{ expediente.domicilio }}</div>
+          <div id="fechadeapertura" class="fechadeapertura">
+            {{ expediente.fecha_apertura | date: "dd/MM/yyyy" }}
+          </div>
+          <div id="fechadecierre" class="fechadecierre">{{ expediente.fecha_cierre | date: "dd/MM/yyyy" }}</div>
+        </div>
+        <div id="line1" class="line1"></div>
+        <div id="frame2" class="frame2">
+          <div id="domicilio" class="domicilio">DOMICILIO</div>
+          <div id="fechadeapertura" class="fechadeapertura">FECHA DE APERTURA</div>
+          <div id="fechadecierre" class="fechadecierre">FECHA DE CIERRE</div>
+        </div>
+      </div>
+
+      <div id="rectangle6" class="rectangle6">
+        <div class="div100">Adscripción</div>
+        <div class="div200">AUTORIZACIÓN EXPEDIENTE PROVISIONAL</div>
+        <div class="div300"></div>
+        <div class="div400">
+          <h1 class="flex justify-center font-light text-sm">QUIEN AUTORIZA</h1>
+        </div>
+        <div class="div500 flex gap-16 justify-center">
+          <h1 class="text-sm/3 font-light text-center">MATRICULA</h1>
+          <h1 class="text-sm/3 font-light text-center">FIRMA</h1>
+        </div>
+        <div class="div600">UMF</div>
+        <div class="div700">CONSULTORIO</div>
+        <div class="div800">TURNO</div>
+        <div class="div900">{{ expediente.umf_adscripcion }}</div>
+        <div class="div1000">{{ expediente.consultorio_adscripcion }}</div>
+        <div class="div1100" *ngIf="expediente?.turno_adscripcion === 'M'">Matutino</div>
+        <div class="div1100" *ngIf="expediente?.turno_adscripcion === 'V'">Vespertino</div>
+        <div class="div1200"></div>
+        <div class="div1300"></div>
+        <div class="div1400"></div>
+        <div class="div1500"></div>
+        <div class="div1600"></div>
+        <div class="div1700"></div>
+        <div class="div1800"></div>
+        <div class="div1900"></div>
+        <div class="div2000"></div>
+        <div class="div2100"></div>
+        <div class="div2200"></div>
+        <div class="div2300"></div>
+      </div>
+      <div id="rectangle7" class="rectangle7">
+        <div id="vigenciadocumental" class="vigenciadocumental">VIGENCIA DOCUMENTAL</div>
+
+        <div class="tipos">
+          <div class="izquierdavigencia">
+            <div
+              id="archivodetrámite-seccióniactivos"
+              class="archivodetrámite-seccióniactivos"
+              [ngClass]="{ subrayado: expediente.vigencia_documental === 'Seccion I' }"
+            >
+              Archivo de Trámite (Sección I Activos)
+            </div>
+            <div
+              id="archivodeconcentración-seccióniisemiactivos"
+              class="archivodeconcentración-seccióniisemiactivos"
+              [ngClass]="{ subrayado: expediente.vigencia_documental === 'Seccion II' }"
+            >
+              Archivo de Concentración (Sección II Semiactivos)
+            </div>
+          </div>
+
+          <div class="derechavigencia">
+            <div
+              id="períodoadicionalporserdonadordesangre"
+              class="períodoadicionalporserdonadordesangre"
+              [ngClass]="{ subrayado: expediente.vigencia_documental === 'Donador de sangre' }"
+            >
+              Período adicional por ser donador de sangre
+            </div>
+            <div
+              id="períodoadicionalporsisioautoridadjudicial"
+              class="períodoadicionalporsisioautoridadjudicial"
+              [ngClass]="{ subrayado: expediente.vigencia_documental === 'SISI o Aut Judicial' }"
+            >
+              Período adicional por SISI o Autoridad Judicial
+            </div>
+          </div>
+        </div>
+        <div id="vigenciatotal" class="vigenciatotal">Vigencia total</div>
+      </div>
+      <div class="padrelegajofojas">
+        <div id="frame3" class="frame3">
+          <div id="legajono" class="legajono">Legajo No</div>
+          <div id="rectangle8" class="rectangle8 flex justify-center items-center">{{ expediente.legajo }}</div>
+        </div>
+
+        <div id="frame4" class="frame4">
+          <div id="númerodefojas" class="númerodefojas">Número de Fojas</div>
+          <div id="rectangle9" class="rectangle9 flex justify-center items-center">{{ expediente.fojas }}</div>
+        </div>
+      </div>
+
+      <div id="frame5" class="frame5">
+        <div id="clavealmacenanverso" class="clavealmacenanverso">Clave almacen anverso</div>
+        <div id="documentoadministrativo" class="documentoadministrativo">Documento Administrativo</div>
+      </div>
+      <div id="clave2b52-009-025" class="clave2b52-009-025">Clave 2B52-009-025</div>
+    </div>
+  </div>
+</div>
+<div class="flex justify-end p-6">
+  <button
+    class="bg-gradient-to-r from-green-500 to-green-700 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-lg hover:from-green-400 hover:to-green-600 hover:scale-105 active:from-green-600 active:to-green-800 transition-all duration-300"
+    (click)="printDiv()"
+  >
+    Imprimir
+  </button>
+</div>

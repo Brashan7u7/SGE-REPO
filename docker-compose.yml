@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sge_user
+      POSTGRES_PASSWORD: DJE20ben
+      POSTGRES_DB: expedientes_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./SGE-Backend-
+    container_name: backend
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./SGE-Backend-/.env.production
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./SGE-Frontend--
+    container_name: frontend
+    restart: always
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
